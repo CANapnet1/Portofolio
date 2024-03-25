@@ -41,7 +41,7 @@ INSTALLED_APPS = [
 
     'channels',  # Enables WebSockets, background tasks, and more.
     'graphene_django',  # Adds Django support for Graphene (GraphQL framework).
-    'app_portofolio.apps.AppConfig',  # Refers to the 'app' application's configuration.
+    'app_portofolio.apps.AppPortofolioConfig',  # Refers to the 'app' application's configuration.
     'corsheaders',  # To manage Cross-Origin Resource Sharing headers.
     'graphene_subscriptions'  # Enables GraphQL subscriptions in the schema.
 ]
