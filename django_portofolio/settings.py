@@ -31,17 +31,40 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',  # An HTTP, HTTP2, and WebSocket protocol server for ASGI.
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'channels',  # Enables WebSockets, background tasks, and more.
+    'graphene_django',  # Adds Django support for Graphene (GraphQL framework).
+    'app_portofolio.apps.AppConfig',  # Refers to the 'app' application's configuration.
+    'corsheaders',  # To manage Cross-Origin Resource Sharing headers.
+    'graphene_subscriptions'  # Enables GraphQL subscriptions in the schema.
 ]
+
+# Configuration for the Graphene framework.
+GRAPHENE = {
+    'SCHEMA': 'app_portofolio.schema.schema'  # Points to the GraphQL schema defined in the app's schema module.
+}
+
+# Configures the channel layers for Django Channels.
+CHANNEL_LAYERS = {
+    'default': {  # Default layer configuration.
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',  # Using Redis as the backend for Channels.
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],  # Specifies the Redis server's host and port.
+        },
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # Handles CORS headers.
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -67,6 +90,7 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = 'django_portofolio.routing.application'
 WSGI_APPLICATION = 'django_portofolio.wsgi.application'
 
 
@@ -129,3 +153,12 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Trusted origins for CSRF. Specifies which origins should be trusted for CSRF purposes. - React App Url
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
+
+# Configuration for CORS headers.
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Specifies which origins are allowed to access the resource.
+]
+CORS_ALLOW_CREDENTIALS = True  # Indicates that the actual request can include user credentials.
